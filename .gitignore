@@ -1,1 +1,2 @@
-config.init
+#exclude configuration file
+config*

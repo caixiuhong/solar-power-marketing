@@ -34,7 +34,7 @@ Solar-power-marketing is scalable and built on Amazon S3, EC2, Apache Spark, Pos
 * Python libs: h5py, s3fs, pygeohash, shapely, uszipcode, pgeocode, geohash2
 
 ## Environment set up
-Install Spark Using [Pegasus](https://github.com/InsightDataScience/pegasus)
+Install Apache Spark using [Pegasus](https://github.com/InsightDataScience/pegasus)
 
 Install PostgreSQL using [Tutorial](https://blog.insightdatascience.com/simply-install-postgresql-58c1e4ebf252)
 
@@ -92,7 +92,7 @@ Clone the Solar-power-marketing project to your local computer or `m4.large` EC2
 $ git clone https://github.com/caixiuhong/solar-power-marketing.git
 ```
 
-## Use bash for ingestion and process seperately.
+## Use bash for ingestion and process
 Ingest solar radiation data into S3 bucket, using Spark.
 
 ```bash
@@ -105,15 +105,17 @@ Process PV rooftop data and solar radiation data using Spark, and save results i
 $ ./src/spark/submit-process.sh
 ```
 
-## Or use Airflow for ingestion and process. 
+## Or use Airflow for ingestion and process 
 ```bash
 $ airflow scheduler
 ```
-Then trigger solar_power_marketing_dag.
+Then trigger the solar_power_marketing_dag.
 
 # Getting Started
 
-Open the website at [http://www.datagourmet.xyz](http://www.datagourmet.xyz). Three graphs are shown in the interactive dashboard. On the top is the market size of solar power in chosen year over the states. Bottom left shows the cities that have most solar power markets for the whole nation or chosen state. Bottom right shows the zip code region that have most solar power market for the whole nation or chosen state/city. 
+Front end is at the website: [http://www.datagourmet.xyz](http://www.datagourmet.xyz). 
+
+Three graphs are shown in the interactive dashboard. On the top is the market size of solar power in chosen year over the states in US. Bottom left shows the cities that have most solar power markets for the whole nation or chosen state. Bottom right shows the zip code region that have most solar power market for the whole nation or chosen state/city. 
 
 # Credits
 

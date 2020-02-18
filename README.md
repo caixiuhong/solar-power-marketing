@@ -6,7 +6,7 @@ This project is to build up a pipeline to analyze urban solar power market in US
 1. [Overview](README.md#overview)
 2. [Requirements](README.md#requirements)
 3. [Installation](README.md#installation)
-4. [Getting Started](README.md#getting started)
+4. [Getting Started](README.md#gettingstarted)
 5. [Credits](README.md#credits)
 
 # Overview

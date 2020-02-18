@@ -20,7 +20,7 @@ Solar-power-marketing is scalable and built on Amazon S3, EC2, Spark and Postgre
 * PostgreSQL
 * Airflow
 * Python 3.6
-* Python lib: h5py, s3fs
+* Python libs: h5py, s3fs, pygeohash, shapely, uszipcode, pgeocode, geohash2
 * Amazon AWS Account
 
 ## Environment set up

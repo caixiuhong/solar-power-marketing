@@ -39,6 +39,12 @@ Set python 3.6 as default python
 $ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
 ```
 
+Update pip
+
+```bash
+$ sudo pip install --upgrade pip
+```
+
 Install s3fs
 
 ```bash

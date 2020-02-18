@@ -86,13 +86,13 @@ $ sudo pip install h5py
 ```
 
 # Installation
-Clone the Solar-power-marketing project to your local computer or `m4.4xlarge` EC2 instance and install the requirements.
+Clone the Solar-power-marketing project to your local computer or `m4.large` EC2 instance and install the requirements.
 
 ```bash
 $ git clone https://github.com/caixiuhong/solar-power-marketing.git
 ```
 
-## Use bash to ingestion and process.
+## Use bash for ingestion and process seperately.
 Ingest solar radiation data into S3 bucket, using Spark.
 
 ```bash
@@ -105,10 +105,11 @@ Process PV rooftop data and solar radiation data using Spark, and save results i
 $ ./src/spark/submit-process.sh
 ```
 
-## Use Airflow for ingestion and process. Trigger solar_power_marketing dag.
+## Or use Airflow for ingestion and process. 
 ```bash
 $ airflow scheduler
 ```
+Then trigger solar_power_marketing_dag.
 
 # Getting Started
 

@@ -10,21 +10,21 @@ This project is to build up a pipeline to analyze urban solar power market in US
 5. [Credits](README.md#credits)
 
 # Overview
-Solar Power is renewable and clean for the earth. The urban solar market potential in US is booming and and it is expected to reach to $22.9 billions by 2025. Therefore, analyzing the solar power market over the US is important for solar industries. However, not all rooftops can build up solar panels, which can lead to an overestimate of residential solar power market in US. Here, utilizing the PV rooftops, which are able to build up at least one solar panels, and the solar radiation databases, this project will provide an acurate estimate of urban solar power market and explore the regions in US with most potential to build up solar pannels and generate large solar power in zip code level.
+Solar Power is renewable and clean for the earth. The urban solar market potential in US is booming and and it is expected to reach to $22.9 billions by 2025. Therefore, analyzing the solar power market over the US is important for solar industries. However, not all rooftops can build up solar panels, which can lead to an overestimate of residential solar power market in US. Here, utilizing the PV rooftops, which are able to build up at least one solar panels, and the solar radiation databases, this project will provide an acurate estimate of urban solar power market and explore the regions in US with most potential to build up solar pannels and generate large solar power in a zip code level.
 
-features:
-- 2005-2014 PV rooftop datasets
-- Same-year solar radiation data
-- Deep to zip code level solar power marketing
+Features:
+- 2005-2014 PV rooftop database (100GB)
+- 2005-2014 solar radiation database (15TB)
+- Explore zip code level urban solar power market size in US
 
-Solar-power-marketing is scalable and built on Amazon S3, EC2, Spark and PostgreSQL on AWS. Tableau can be used to visualize and analyze the standardized dataset.
+Solar-power-marketing is scalable and built on Amazon S3, EC2, Apache Spark and PostgreSQL on AWS. Tableau can be used to visualize and analyze the standardized dataset.
 
 [Slides](https://drive.google.com/open?id=1QFfqpmwcNVOsM8dnTihsSDQ28R_BQJEHRMxpEA28v6w)
 
 ![Pipeline](demo/pipeline.png)
 
 # Requirements
-* Spark
+* Apache Spark
 * PostgreSQL
 * Airflow
 * Python 3.6

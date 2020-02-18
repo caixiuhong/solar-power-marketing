@@ -30,9 +30,8 @@ Solar-power-marketing is scalable and built on Amazon S3, EC2, Apache Spark, Pos
 * PostgreSQL: data storage
 * Airflow: ETL scheduler and monitor
 ## Evironment requirements
-* Python 3.6: 
+* Python 3.6: required for h5py
 * Python libs: h5py, s3fs, pygeohash, shapely, uszipcode, pgeocode, geohash2
-
 
 ## Environment set up
 Install python 3.6 

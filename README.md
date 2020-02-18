@@ -98,7 +98,7 @@ $ airflow scheduler
 
 # Getting Started
 
-Open the website at [http://www.datagourmet.xyz](http://www.datagourmet.xyz). Three graphs are shown in the interactive dashboard. On the top is the market size of solar power in chosen year over the states. Bottom left shows the relative cities that have most solar power markets for the whole nation or chosen state. Bottom right shows the relative zip code region that have most solar power market for the whole nation or chosen state/city. 
+Open the website at [http://www.datagourmet.xyz](http://www.datagourmet.xyz). Three graphs are shown in the interactive dashboard. On the top is the market size of solar power in chosen year over the states. Bottom left shows the cities that have most solar power markets for the whole nation or chosen state. Bottom right shows the zip code region that have most solar power market for the whole nation or chosen state/city. 
 
 # Credits
 

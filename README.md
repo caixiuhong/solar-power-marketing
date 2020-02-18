@@ -1,6 +1,14 @@
 # Solar Power Marketing 
 This project is to build up a pipeline to analyze urban solar power market in US, counpling with PV rooftop dataset and solar radiation dataset.
 
+# Table of Contents
+
+1. [Overview](README.md#overview)
+2. [Requirements](README.md#requirements)
+3. [Installation](README.md#installation)
+4. [Get Started](README.md#get started)
+5. [Credits](README.md#credits)
+
 # Overview
 Solar Power is renewable and clean for earth. The market potential in US is booming and huge. The urban rooftops provide huge potential to utilize solar power and save a lot of energy, utilizing the PV rooftop and solar radiation databases, this project will provide where in US has most potential to build up solar pannels and generate large solar power in zip code level.
 
@@ -15,7 +23,7 @@ Solar-power-marketing is scalable and built on Amazon S3, EC2, Spark and Postgre
 
 ![Pipeline](demo/pipeline.png)
 
-# Requirments
+# Requirements
 * Spark
 * PostgreSQL
 * Airflow

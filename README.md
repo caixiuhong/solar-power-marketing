@@ -34,16 +34,13 @@ Solar-power-marketing is scalable and built on Amazon S3, EC2, Apache Spark, Pos
 * Python libs: h5py, s3fs, pygeohash, shapely, uszipcode, pgeocode, geohash2
 
 ## Environment set up
-Install Spark, PostgreSQL
-, using
+Install Spark
 
-```bash
-$ export AIRFLOW_HOME=~/airflow
-$ sudo apt install python3.6-dev
-$ pip install apache-airflow
-$ airflow initdb
-$ airflow webserver -p 5050
-```
+Using [Pegasus](https://github.com/InsightDataScience/pegasus)
+
+Install PostgreSQL
+
+using [Tutorial](https://blog.insightdatascience.com/simply-install-postgresql-58c1e4ebf252)
 
 Install Airflow
 
@@ -54,10 +51,6 @@ $ pip install apache-airflow
 $ airflow initdb
 $ airflow webserver -p 5050
 ```
-
-
-
-
 
 Install python 3.6 
 

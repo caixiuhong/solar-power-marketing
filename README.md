@@ -17,19 +17,22 @@ Features:
 - 2005-2014 solar radiation database (15TB)
 - Explore zip code level urban solar power market size in US
 
-Solar-power-marketing is scalable and built on Amazon S3, EC2, Apache Spark and PostgreSQL on AWS. Tableau can be used to visualize and analyze the standardized dataset.
+Solar-power-marketing is scalable and built on Amazon S3, EC2, Apache Spark, PostgreSQL on AWS. Airflow is used to schedule and monitor the workflow of the ETL. Tableau can be used to visualize and analyze the standardized dataset.
 
 [Slides](https://drive.google.com/open?id=1QFfqpmwcNVOsM8dnTihsSDQ28R_BQJEHRMxpEA28v6w)
 
 ![Pipeline](demo/pipeline.png)
 
 # Requirements
-* Apache Spark
-* PostgreSQL
-* Airflow
-* Python 3.6
-* Python libs: h5py, s3fs, pygeohash, shapely, uszipcode, pgeocode, geohash2
+## Architecture requirements
 * Amazon AWS Account
+* Apache Spark: data ingestion and data process
+* PostgreSQL: data storage
+* Airflow: ETL scheduler and monitor
+## Evironment requirements
+* Python 3.6: 
+* Python libs: h5py, s3fs, pygeohash, shapely, uszipcode, pgeocode, geohash2
+
 
 ## Environment set up
 Install python 3.6 

@@ -73,13 +73,13 @@ $ git clone https://github.com/caixiuhong/solar-power-marketing.git
 Ingest solar radiation data into S3 bucket, using Spark.
 
 ```bash
-$ ./src/submit-ingest.sh
+$ ./src/spark/submit-ingest.sh
 ```
 
 Process PV rooftop data and solar radiation data using Spark, and save results in PostgreSQL.
 
 ```bash
-$ ./src/submit-process.sh
+$ ./src/spark/submit-process.sh
 ```
 
 ## Use Airflow for ingestion and process. Trigger solar_power_marketing dag.

@@ -105,7 +105,7 @@ Process PV rooftop data and solar radiation data using Spark, and save results i
 $ ./src/spark/submit-process.sh
 ```
 
-## Or use Airflow to schedule and monitor ingestion and process 
+## Or use Airflow for ingestion and process 
 ```bash
 $ airflow scheduler
 ```

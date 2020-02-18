@@ -5,26 +5,20 @@ from pyspark.sql.functions import avg, round
 import pyspark.sql.functions as F
 from pyspark.sql.types import *
 from pyspark import SparkConf, SparkContext
-from pygeocoder import Geocoder
-import pygeohash as pgh
-import shapely
-from shapely import wkt
-from uszipcode import SearchEngine
-import pgeocode
-import geohash2
-
-
+from geo_processor import GeoProcessor
 
 class SparkProcessor:
 	def __init__(self, spark_master_node, appName):
+
 		try:
 			self.spark=SparkSession.builder.master(spark_master_node)\
 			.appName(appName).config("spark.jars","/home/ubuntu/postgresql-42.2.9.jar").getOrCreate()
+			self.spark.sparkContext.addPyFile("/home/ubuntu/src/spark/spark_processor.py")
+			self.spark.sparkContext.addPyFile("/home/ubuntu/src/spark/geo_processor.py")
 
 		except:
 			print("Make sure the spark server is running!")
 			sys.exit(1)
-
 
 	def read_parquet(self, filepath):
 		'''
@@ -32,9 +26,7 @@ class SparkProcessor:
 		'''	
 
 		df=self.spark.read.parquet(filepath)
-
 		return df
-
 
 	def save_to_DB(self, data, url,username, password,table, mode='overwrite'):
 		'''
@@ -60,22 +52,19 @@ class SparkProcessor:
 		output: rooftop planes and its relative solar power 
 		'''
 		
-
 		#read rooftop data and solar radiatioin data
 		rooftop_df=self.read_parquet(rooftop_filepath)
 		disposed_nsrdb_df=self.read_parquet(disposed_nsrdb_path)
 
 		#add geohash column to rooftop dataframe: transfer geometry_4326 to geohash
-		udf_GeomToGeohash=F.udf(lambda the_geom_4326: self.GeomToGeohash(the_geom_4326, precision=precision))
+		geoprocessor=GeoProcessor()
+		udf_GeomToGeohash=F.udf(lambda the_geom_4326: geoprocessor.GeomToGeohash(the_geom_4326, precision=precision))
 		new_rooftop_df=rooftop_df.withColumn("geohash",udf_GeomToGeohash('the_geom_4326'))
 
 		#add geohash column to solar radiation dataframe: transfer latitude and longitude to geohash
-		udf_geohash=F.udf(lambda latitude, longitude: pgh.encode(latitude,longitude, precision=precision))
+		udf_geohash=F.udf(lambda latitude, longitude: geoprocessor.GeoToGeohash(latitude,longitude, precision=precision))
 		new_disposed_nsrdb_df=disposed_nsrdb_df.withColumn("geohash", udf_geohash('latitude','longitude'))
 
-		#udf_GeoToZip = F.udf(lambda latitude, longitude: GeoToZip(latitude,longitude))
-		#new_disposed_nsrdb_df=new_disposed_nsrdb_df.withColumn("zip", udf_GeoToZip('latitude','longitude'))
-		#new_disposed_nsrdb_df=disposed_nsrdb_df.rdd.map(lambda row: GeoToZip(row['latitude'], row['longitude']))
 
 
 		new_rooftop_df.registerTempTable('new_rooftop_table')
@@ -114,14 +103,8 @@ class SparkProcessor:
 		disposed_nsrdb_df=self.read_parquet(disposed_nsrdb_path)
 
 		#udf: transfer geometry_4326 to geohash
-		udf_GeomToGeohash=F.udf(lambda the_geom_4326, zip: self.GeomToGeohash(the_geom_4326, zip, precision=precision))
-
-		#udf: transfer zipcode to geohash
-		udf_ZipToGeohash=F.udf(lambda zipcode: self.ZipToGeohash(zipcode,precision=precision))
-
-		#add geohash column to rooftop dataframe: transfer zipcode to geohash
-		#new_rooftop_df= rooftop_df.select('bldg_fid','footprint_m2','slopearea_m2','flatarea_m2','zip','city','state','year')\
-		#.withColumn("geohash",udf_ZipToGeohash('zip'))
+		geoprocessor=GeoProcessor()
+		udf_GeomToGeohash=F.udf(lambda the_geom_4326, zip: geoprocessor.GeomToGeohash(the_geom_4326, zip, precision=precision))
 		
 		#add geohash column to rooftop dataframe: transfer geometry_4326 to geohash
 		new_rooftop_df=rooftop_df.withColumn("geohash",udf_GeomToGeohash('the_geom_4326', 'zip'))
@@ -140,7 +123,7 @@ class SparkProcessor:
 
 
 		#add geohash column to solar radiation dataframe: transfer latitude and longitude to geohash
-		udf_GeoToGeohash=F.udf(lambda latitude, longitude: self.GeoToGeohash(latitude, longitude,precision=precision))
+		udf_GeoToGeohash=F.udf(lambda latitude, longitude: geoprocessor.GeoToGeohash(latitude, longitude,precision=precision))
 		new_disposed_nsrdb_df= disposed_nsrdb_df.withColumn("geohash", udf_GeoToGeohash('latitude', 'longitude'))
 		#new_disposed_nsrdb_df.show(3)
 
@@ -194,14 +177,14 @@ class SparkProcessor:
 			FROM rooftop_table GROUP BY year,zip,city,state")
 	
 		#add geohash column to rooftop dataframe: transfer zipcode to geohash
-		udf_ZipToGeohash=F.udf(lambda zipcode: GeoProcess.ZipToGeohash2(zipcode, precision=precision))
+		geoprocessor=GeoProcessor()
+		udf_ZipToGeohash=F.udf(lambda zipcode: geoprocessor.ZipToGeohash2(zipcode, precision=precision))
 		new_rooftop_df3= new_rooftop_df2.withColumn("geohash",udf_ZipToGeohash('zip'))
 		#udf_ZipToGeohash=F.udf(lambda x: GeoToGeohash(x[0],x[1],precision=precision))
 		#new_rooftop_df4= new_rooftop_df3.withColumn("geohash",udf_ZipToGeohash("(lat,lng)"))
 
 		#add geohash column to solar radiation dataframe: transfer latitude and longitude to geohash
-		#udf_GeoToGeohash=F.udf(lambda latitude, longitude: GeoToGeohash(latitude, longitude,precision=precision))
-		udf_GeoToGeohash=F.udf(lambda latitude, longitude: pgh.encode(latitude,longitude, precision=precision))
+		udf_GeoToGeohash=F.udf(lambda latitude, longitude: geoprocessor.GeoToGeohash(latitude, longitude,precision=precision))
 		#new_rooftop_df4= new_rooftop_df3.withColumn("geohash",udf_GeoToGeohash('latitude','longitude'))
 		new_disposed_nsrdb_df= disposed_nsrdb_df.withColumn("geohash", udf_GeoToGeohash('latitude', 'longitude'))
 	
@@ -230,98 +213,3 @@ class SparkProcessor:
 
 		return rooftop_nsrdb
 
-class GeoProcess:
-	def __init__(self):
-
-		self.search=None  # to store the search engine for uszipcode, avoid to run search engine every time in worker nodes
-	
-	def GeoToZip(self, latitude,longitude):
-		'''
-		use uszipcode to transfer latitude and longitude to zipcode 
-		'''
-		#option: google map api, need googlemap api key. has request limit
-		#geoinfo=Geocoder.reverse_geocode(latitude, longitude) 
-		#return geoinfo.postal_code
-
-
-		if not self.search:
-			self.search = SearchEngine()
-			result = search.by_coordinates(latitude, longitude, returns=1)
-	
-		return result[0].zipcode  if result else None
-
-	
-	def ZipToGeohash(self, zipcode, precision=4):
-		'''
-		Use uszipcode to transfer latitude and longitude to zipcode
-		Use pygeohash to transfer zipcode to geohash
-		precision: define the precision of geohash 
-		'''
-		
-		if not self.search:
-			self.search = SearchEngine()
-		result = search.by_zipcode(zipcode)
-	
-		res=pgh.encode(result.lat,result.lng, precision=precision)
-	
-		return res 
-
-	
-	def ZipToGeohash2(self, zipcode, precision=4):
-		'''
-		Use pgeocode to transfer latitude and longitude to zipcode
-		Use geohash2 to transfer zipcode to geohash
-		precision: define the precision of geohash 
-		'''
-
-		nomi = pgeocode.Nominatim('us')
-		info=nomi.query_postal_code(zipcode)
-		latitude, longitude=info.latitude, info.longitude
-		try:
-			geohash=geohash2.encode(info.latitude, info.longitude, precision)
-		except:
-			geohash=None      #in case there are no zip code for input data
-		return geohash
-
-	
-	def GeoToGeohash(self, latitude,longitude, precision=4):
-		'''
-		Use pygeohash to transfer latitude and longitude to goehash
-		precision: define the precision of geohash 
-		'''
-
-		result=pgh.encode(latitude,longitude, precision=precision)
-
-		return result 
-	
-	def GeomToGeohash(self, the_geom_4326, zip, precision=4):
-		'''
-		transfer geometry of EPSG 4326 to geohash
-		use shapely to get the centroid of geometry
-		use pygeohash to transfere latitude and longitude of centroid to geohash
-		if geometry to geohash is not successful, use zip code instead
-		'''
-
-		try:   # transfer geometry to geohash
-			geometry=shapely.wkt.loads(the_geom_4326)
-			if geometry.geom_type == 'MultiPolygon':    # special case for MultiPolygon type geometry
-				latitude,longitude=geometry.bounds[1], geometry.bounds[0]
-			else:
-				latitude, longitude= geometry.centroid.y, geometry.centroid.x
-			res=pgh.encode(latitude,longitude, precision=precision)
-		except:  # if geometry not successful, use zip code instead
-			try:
-				res=self.ZipToGeohash(zip,precision=precision)
-			except:
-				res=None   # if zip code is null
-		return res
-
-	def GeomToLatlong(self,the_geom_4326, precision=4):
-		'''
-		transfer geometry of EPSG 4326 to latitude, longitude
-		use shapely to output centroid of geometry
-		'''
-		geometry=shapely.wkt.loads(the_geom_4326)
-		latitude, longitude= geometry.centroid.y, geometry.centroid.x
-		return latitude, longitude
-	

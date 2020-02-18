@@ -16,9 +16,12 @@
 #$ -e error.log
 
 # Now comes the commands to be executed
+today="`date +%m-%d-%y`"
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+outputpath="/home/ubuntu/src/spark"
 spark-submit \
 --master yarn \
 --deploy-mode client \
 --executor-memory 6G \
 --driver-memory 6G \
-process_main.py >run-02-13.log 
+$outputpath/process_main.py >$outputpath/run-process-$today.log 

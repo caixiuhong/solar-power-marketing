@@ -34,13 +34,9 @@ Solar-power-marketing is scalable and built on Amazon S3, EC2, Apache Spark, Pos
 * Python libs: h5py, s3fs, pygeohash, shapely, uszipcode, pgeocode, geohash2
 
 ## Environment set up
-Install Spark
+Install Spark Using [Pegasus](https://github.com/InsightDataScience/pegasus)
 
-Using [Pegasus](https://github.com/InsightDataScience/pegasus)
-
-Install PostgreSQL
-
-using [Tutorial](https://blog.insightdatascience.com/simply-install-postgresql-58c1e4ebf252)
+Install PostgreSQL using [Tutorial](https://blog.insightdatascience.com/simply-install-postgresql-58c1e4ebf252)
 
 Install Airflow
 
@@ -90,13 +86,13 @@ $ sudo pip install h5py
 ```
 
 # Installation
-Clone the Solar-power-marketing project to your local computer or `m4.4xlarge` EC2 instance and install awscli and other requirements.
+Clone the Solar-power-marketing project to your local computer or `m4.4xlarge` EC2 instance and install the requirements.
 
 ```bash
 $ git clone https://github.com/caixiuhong/solar-power-marketing.git
 ```
 
-## Mannually ingestion and process.
+## Use bash to ingestion and process.
 Ingest solar radiation data into S3 bucket, using Spark.
 
 ```bash

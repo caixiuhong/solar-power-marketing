@@ -1,89 +1,96 @@
 # Solar Power Marketing 
-This project is to build up a pipeline to analyze urban solar power market in US, counpling PV rooftop dataset and solar radiation dataset.
+This project is to build up a pipeline to analyze urban solar power market in US, counpling with PV rooftop dataset and solar radiation dataset.
 
 # Overview
-With a switch to electronic prescriptions, healthcare and insurance companies are providing large drug usage datasets. However, since each provider has their own way to log prescriptions the data sets are non-standard. Using publicly available drug datasets, RxMiner standardizes and joins prescription datasets.
+Solar Power is renewable and clean for earth. The market potential in US is booming and huge. The urban rooftops provide huge potential to utilize solar power and save a lot of energy, utilizing the PV rooftop and solar radiation databases, this project will provide where in US has most potential to build up solar pannels and generate large solar power in zip code level.
 
-RxMiner features:
-- 100 million standardized prescriptions queryable in Redshift
-- Automated ingestion of Medicaid, Medicare, NIH, FDA and NEPPS data
-- Validation of prescriptions against NIH, FDA and NEPPS
-- Union of prescription from Medicaid and Medicare
+features:
+- 2005-2014 PV rooftop datasets
+- Same-year solar radiation data
+- Deep to zip code level solar power marketing
 
-RxMiner is scalable and built on Amazon S3, EC2, and Redshift on AWS. Tableau can be used to visualize and analyze the standardized dataset or each data source.
+Solar-power-marketing is scalable and built on Amazon S3, EC2, Spark and PostgreSQL on AWS. Tableau can be used to visualize and analyze the standardized dataset.
 
-[Slides](https://docs.google.com/presentation/d/1z6SpBYRWqAIjsW7Khf0E44y8RqzUDVtGs8ziCrJ-xoA)
+[Slides](https://drive.google.com/open?id=1QFfqpmwcNVOsM8dnTihsSDQ28R_BQJEHRMxpEA28v6w)
 
-![Pipeline](docs/pipeline.png)
+![Pipeline](demo/pipeline.png)
 
 # Requirments
-* Python 3.7
+* Python 3.6
+* Python lib: h5py, s3fs
 * Amazon AWS Account
-* SODA API
+
+## Environment set up
+Install python 3.6 
+
+```bash
+$ sudo apt-get install software-properties-common
+$ sudo add-apt-repository ppa:deadsnakes/ppa 
+$ sudo apt-get update
+$ sudo apt-get install python3.6
+```
+
+Set python 3.6 as default python
+
+```bash
+$ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
+```
+
+Install s3fs
+
+```bash
+$ pip install awscli --upgrade –user
+$ pip install boto3
+$ pip install s3fs
+```
+
+Install h5py
+
+```bash
+$ sudo pip install cython
+$ sudo apt-get install libhdf5-dev
+$ sudo pip install h5py
+```
+
+Install Airflow
+
+```bash
+$ export AIRFLOW_HOME=~/airflow
+$ sudo apt install python3.6-dev
+$ pip install apache-airflow
+$ airflow initdb
+$ airflow webserver -p 5050
+```
 
 # Installation
-Clone the RxMiner project to your local computer or `m4.4xlarge` EC2 instance and install awscli and other requirements.
+Clone the Solar-power-marketing project to your local computer or `m4.4xlarge` EC2 instance and install awscli and other requirements.
 
 ```bash
-$ git clone https://github.com/ziyunch/RxMiner.git
-$ pip install awscli
-$ pip install ./requirements.txt
+$ git clone https://github.com/caixiuhong/solar-power-marketing.git
 ```
 
-Next add the following credentials as environment variables to your `~/.bash_profile`.
+## Mannually ingestion and process.
+Ingest solar radiation data into S3 bucket, using Spark.
 
 ```bash
-# AWS Credentials
-export AWS_BUCKET_NAME=XXXX
-export AWS_ACCESS_KEY_ID=XXXX
-export AWS_SECRET_ACCESS_KEY=XXXX
-# SODA API
-export SODAPY_APPTOKEN=XXXX
-# Redshift configuration
-export REDSHIFT_USER=XXXX
-export REDSHIFT_PASSWORD=XXXX
-export REDSHIFT_HOST_IP=XXXX
-export REDSHIFT_PORT=XXXX
-export REDSHIFT_DATABASE=XXXX
-# PostgreSQL configuration
-export POSTGRESQL_USER=XXXX
-export POSTGRESQL_PASSWORD=XXXX
-export POSTGRESQL_HOST_IP=XXXX
-export POSTGRESQL_PORT=XXXX
-export POSTGRESQL_DATABASE=XXXX
+$ ./src/submit-ingest.sh
 ```
 
-Source the `.bash_profile` when finished.
+Process PV rooftop data and solar radiation data using Spark, and save results in PostgreSQL.
 
 ```bash
-$ source ~/.bash_profile
+$ ./src/submit-process.sh
 ```
 
-Then import data into S3 bucket.
-
+## Use Airflow for ingestion and process. Trigger solar_power_marketing dag.
 ```bash
-$ . ./deployment/import.sh
+$ airflow scheduler
 ```
 
-Ingest data and stage them in SQL database.
-
-```bash
-$ . ./deployment/ingest.sh
-```
-
-Prepare sample table based on queries.
-
-```bash
-$ . ./deployment/sql.sh
-```
 # Getting Started
 
-Open the website at [http://rxminer.net](http://rxminer.net). Four graphs are shown in the interactive dashboard. On the top is the market size of all or chosen drugs over the states. Bottom left shows the Top 10 categories of drugs shared most markets for the whole nation or chosen state. Bottom middle shows the market of each drug in the descending order. Bottom right shows the drug usage for each year.
-
-The sample visualization of national drug usage during 2013-2016 was also published on [Tableau public server](https://public.tableau.com/profile/runhan.yu#!/vizhome/rxminer2/Dashboard1).
-
-The standardized dataset or each data source could be connected by `Tableau Desktop 2018.3` or other data analysis or visualization tools.
+Open the website at [http://www.datagourmet.xyz](http://www.datagourmet.xyz). Three graphs are shown in the interactive dashboard. On the top is the market size of solar power in chosen year over the states. Bottom left shows the relative cities that have most solar power markets for the whole nation or chosen state. Bottom right shows the relative zip code region that have most solar power market for the whole nation or chosen state/city. 
 
 # Credits
 
-RxMiner was built as a project at Insight Data Engineering in the Winter 2019 session by Runhan Yu. It is availble as open source and is free to use and modify by anyone.
+Solar-Power-Marketing was built as a project at Insight Data Engineering in the Jan 2020 session by Xiuhong Cai. It is availble as open source and is free to use and modify by anyone.

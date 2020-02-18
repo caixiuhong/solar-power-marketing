@@ -1,5 +1,5 @@
 # Solar Power Marketing 
-This project is to build up a pipeline to analyze urban solar power market in US, counpling with PV rooftop dataset and solar radiation dataset.
+This project is to build up a pipeline to analyze urban solar power market in US, coupling with PV (Photovoltaic) rooftop database and solar radiation database from NREL (National Renewable Energy Laboratory) data source stored in AWS.
 
 # Table of Contents
 
@@ -10,7 +10,7 @@ This project is to build up a pipeline to analyze urban solar power market in US
 5. [Credits](README.md#credits)
 
 # Overview
-Solar Power is renewable and clean for earth. The market potential in US is booming and huge. The urban rooftops provide huge potential to utilize solar power and save a lot of energy, utilizing the PV rooftop and solar radiation databases, this project will provide where in US has most potential to build up solar pannels and generate large solar power in zip code level.
+Solar Power is renewable and clean for the earth. The urban solar market potential in US is booming and and it is expected to reach to $22.9 billions by 2025. Therefore, analyzing the solar power market over the US is important for solar industries. However, not all rooftops can build up solar panels, which can lead to an overestimate of residential solar power market in US. Here, utilizing the PV rooftops, which are able to build up at least one solar panels, and the solar radiation databases, this project will provide an acurate estimate of urban solar power market and explore the regions in US with most potential to build up solar pannels and generate large solar power in zip code level.
 
 features:
 - 2005-2014 PV rooftop datasets

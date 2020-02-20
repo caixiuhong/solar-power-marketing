@@ -7,6 +7,9 @@ import h5py
 
 class SparkIngester:
 	def __init__(self, spark_master_node, appName):
+		'''
+		Transfer HDF file to parquet using spark.
+		'''
 		try:
 			self.spark=SparkSession.builder.master(spark_master_node)\
 			.appName(appName).config("spark.jars","/home/ubuntu/postgresql-42.2.9.jar").getOrCreate()

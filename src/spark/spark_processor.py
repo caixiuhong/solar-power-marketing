@@ -9,6 +9,10 @@ from geo_processor import GeoProcessor
 
 class SparkProcessor:
 	def __init__(self, spark_master_node, appName):
+		'''
+		Join rooftoop table and solar radiation table, to calculate solar power, 
+		and save the results in database, using spark.
+		'''
 
 		try:
 			self.spark=SparkSession.builder.master(spark_master_node)\

@@ -9,6 +9,9 @@ import geohash2
 
 class GeoProcessor:
 	def __init__(self):
+		'''
+		Transfer among geospatial informations, zip code, geometry, and geohash. 
+		'''
 
 		self.search=None  # to store the search engine for uszipcode, avoid to run search engine every time in worker nodes
 	
